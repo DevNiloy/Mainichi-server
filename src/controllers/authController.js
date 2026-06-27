@@ -39,6 +39,7 @@ const registerUser = async (req, res, next) => {
       email: userData.email,
       image: userData.image, // response-e image pathalam
       role: userData.role,
+      token: userData.token,
     });
   } catch (error) {
     if (error.message.includes("exists")) {
@@ -73,7 +74,8 @@ const loginUser = async (req, res, next) => {
       name: userData.name,
       email: userData.email,
       image: userData.image,
-      role: userData.role, // Admin naki user seta jante dorkar
+      role: userData.role,
+      token: userData.token, // Admin naki user seta jante dorkar
     });
   } catch (error) {
     res.status(401);
