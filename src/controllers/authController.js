@@ -4,6 +4,7 @@ const {
   getUserById,
   logoutUser,
   updateUserProfile,
+  deleteUserAccountById,
 } = require("../services/authService");
 
 const setTokenCookie = (res, token) => {
@@ -135,4 +136,47 @@ const updateMe = async (req, res, next) => {
   }
 };
 
-module.exports = { registerUser, loginUser, getMe, logout, updateMe };
+//deletion
+
+const deleteMyAccount = async (req, res, next) => {
+  try {
+    // req.user._id ba req.user.id (Apnar authentication middleware onujayi dhorben)
+    const userId = req.user._id || req.user.id;
+
+    if (!userId) {
+      return res
+        .status(401)
+        .json({ message: "Unauthorized! User ID missing." });
+    }
+
+    // 🏃‍♂️ Service level execution
+    await deleteUserAccountById(userId);
+
+    // 🌐 Web clients: JWT Cookie clear kore dewa holo (Apnar existing cookie configuration onujayi)
+    res.clearCookie("jwt", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      path: "/",
+    });
+
+    // 📱 Mobile App + Web Both standard response
+    res.status(200).json({
+      success: true,
+      message: "Your account has been permanently deleted successfully.",
+      action: "CLEAR_LOCAL_SESSION", // App developers dynamic handling-e help korbe
+    });
+  } catch (error) {
+    res.status(error.message.includes("not found") ? 404 : 500);
+    next(error);
+  }
+};
+
+module.exports = {
+  registerUser,
+  loginUser,
+  getMe,
+  logout,
+  updateMe,
+  deleteMyAccount,
+};

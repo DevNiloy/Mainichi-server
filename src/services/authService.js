@@ -93,4 +93,24 @@ const updateUserProfile = async (userId, updateData) => {
   };
 };
 
-module.exports = { registerNewUser, authenticateUser, getUserById, logoutUser,updateUserProfile };
+const deleteUserAccountById = async (userId) => {
+  const user = await User.findById(userId);
+
+  if (!user) {
+    throw new Error("User not found or already deleted.");
+  }
+
+  // Permenently delete from database
+  await user.deleteOne();
+
+  return true;
+};
+
+module.exports = {
+  registerNewUser,
+  authenticateUser,
+  getUserById,
+  logoutUser,
+  updateUserProfile,
+  deleteUserAccountById,
+};

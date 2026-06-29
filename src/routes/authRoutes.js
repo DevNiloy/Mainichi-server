@@ -7,6 +7,7 @@ const {
   getMe,
   logout,
   updateMe,
+  deleteMyAccount,
 } = require("../controllers/authController");
 
 // middleware (auth protect লাগবে)
@@ -25,5 +26,6 @@ router.post("/logout", logout);
 // ======================
 router.get("/me", protect, getMe);
 router.put("/me", protect, upload.single("image"), updateMe);
+router.delete("/me/delete", protect, deleteMyAccount);
 
 module.exports = router;
