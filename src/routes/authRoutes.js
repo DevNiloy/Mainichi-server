@@ -25,7 +25,7 @@ router.post("/logout", logout);
 // Protected Routes
 // ======================
 router.get("/me", protect, getMe);
-router.put("/me", protect, upload.single("image"), updateMe);
+router.put("/update-me", protect, upload.single("image"), updateMe);
 router.delete("/me/delete", protect, deleteMyAccount);
 
 module.exports = router;
