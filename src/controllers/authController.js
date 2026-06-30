@@ -35,11 +35,16 @@ const registerUser = async (req, res, next) => {
     setTokenCookie(res, userData.token);
 
     res.status(201).json({
-      _id: userData._id,
-      name: userData.name,
-      email: userData.email,
-      image: userData.image, // response-e image pathalam
-      role: userData.role,
+      success: true,
+      status: 201,
+      message: "User registered successfully",
+      user: {
+        _id: userData._id,
+        name: userData.name,
+        email: userData.email,
+        image: userData.image,
+        role: userData.role,
+      },
       token: userData.token,
     });
   } catch (error) {
@@ -70,13 +75,18 @@ const loginUser = async (req, res, next) => {
     setTokenCookie(res, userData.token);
 
     // Login-er por image ebong role-o return korchi
-    res.json({
-      _id: userData._id,
-      name: userData.name,
-      email: userData.email,
-      image: userData.image,
-      role: userData.role,
-      token: userData.token, // Admin naki user seta jante dorkar
+    res.status(200).json({
+      success: true,
+      status: 200,
+      message: "Login successful",
+      user: {
+        _id: userData._id,
+        name: userData.name,
+        email: userData.email,
+        image: userData.image,
+        role: userData.role,
+      },
+      token: userData.token,
     });
   } catch (error) {
     res.status(401);
