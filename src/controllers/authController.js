@@ -94,45 +94,18 @@ const loginUser = async (req, res, next) => {
   }
 };
 
-// const getMe = async (req, res) => {
-//   try {
-//     // req.user.id (middleware theke asha) use kore data fetch
-//     const user = await getUserById(req.user.id);
-
-//     if (!user) {
-//       return res.status(404).json({ message: "User not found" });
-//     }
-
-//     res.status(200).json(user);
-//   } catch (error) {
-//     res.status(500).json({ message: error.message });
-//   }
-// };
 const getMe = async (req, res) => {
   try {
     // req.user.id (middleware theke asha) use kore data fetch
     const user = await getUserById(req.user.id);
 
     if (!user) {
-      return res.status(404).json({
-        success: false,
-        status: 404,
-        message: "User not found",
-      });
+      return res.status(404).json({ message: "User not found" });
     }
 
-    res.status(200).json({
-      success: true,
-      status: 200,
-      message: "User profile fetched successfully",
-      user,
-    });
+    res.status(200).json(user);
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      status: 500,
-      message: error.message,
-    });
+    res.status(500).json({ message: error.message });
   }
 };
 
@@ -142,12 +115,7 @@ const logout = async (req, res) => {
   const cookieOptions = await logoutUser();
 
   res.clearCookie("jwt", cookieOptions);
-
-  res.status(200).json({
-    success: true,
-    status: 200,
-    message: "Logged out successfully",
-  });
+  res.status(200).json({ message: "Logged out successfully" });
 };
 
 const updateMe = async (req, res, next) => {
@@ -155,7 +123,7 @@ const updateMe = async (req, res, next) => {
     const { name, password } = req.body;
     let imagePath = req.body.image; // Purono image link jodi thake
 
-    // Jodi Multer notun file upload kore thake
+    // Jodi Multer noutun file upload kore thake
     if (req.file) {
       // Public folder-er path jeta frontend theke access kora jabe
       imagePath = `/uploads/users/${req.file.filename}`;
@@ -169,7 +137,6 @@ const updateMe = async (req, res, next) => {
 
     res.status(200).json({
       success: true,
-      status: 200,
       message: "Profile updated successfully",
       user: updatedData,
     });
@@ -183,21 +150,19 @@ const updateMe = async (req, res, next) => {
 
 const deleteMyAccount = async (req, res, next) => {
   try {
-    // req.user._id ba req.user.id (Authentication middleware onujayi)
+    // req.user._id ba req.user.id (Apnar authentication middleware onujayi dhorben)
     const userId = req.user._id || req.user.id;
 
     if (!userId) {
-      return res.status(401).json({
-        success: false,
-        status: 401,
-        message: "Unauthorized! User ID missing.",
-      });
+      return res
+        .status(401)
+        .json({ message: "Unauthorized! User ID missing." });
     }
 
-    // Service level execution
+    // 🏃‍♂️ Service level execution
     await deleteUserAccountById(userId);
 
-    // JWT Cookie clear
+    // 🌐 Web clients: JWT Cookie clear kore dewa holo (Apnar existing cookie configuration onujayi)
     res.clearCookie("jwt", {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
@@ -205,12 +170,11 @@ const deleteMyAccount = async (req, res, next) => {
       path: "/",
     });
 
-    // Response
+    // 📱 Mobile App + Web Both standard response
     res.status(200).json({
       success: true,
-      status: 200,
       message: "Your account has been permanently deleted successfully.",
-      action: "CLEAR_LOCAL_SESSION",
+      action: "CLEAR_LOCAL_SESSION", // App developers dynamic handling-e help korbe
     });
   } catch (error) {
     res.status(error.message.includes("not found") ? 404 : 500);
