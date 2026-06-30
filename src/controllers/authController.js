@@ -137,6 +137,7 @@ const updateMe = async (req, res, next) => {
 
     res.status(200).json({
       success: true,
+      status: 200,
       message: "Profile updated successfully",
       user: updatedData,
     });
@@ -173,6 +174,7 @@ const deleteMyAccount = async (req, res, next) => {
     // 📱 Mobile App + Web Both standard response
     res.status(200).json({
       success: true,
+      status: 200,
       message: "Your account has been permanently deleted successfully.",
       action: "CLEAR_LOCAL_SESSION", // App developers dynamic handling-e help korbe
     });
