@@ -14,23 +14,24 @@ exports.createProductReview = async (req, res, next) => {
 
     const updatedProduct = await reviewService.addProductReviewService(
       req.params.id,
-      reviewPayload
+      reviewPayload,
     );
 
     res.status(201).json({
       success: true,
+      status: 201,
       message: "Review added successfully",
       data: {
         averageRating: updatedProduct.ratings.average,
         reviewCount: updatedProduct.ratings.count,
-        reviews: updatedProduct.reviews
-      }
+        reviews: updatedProduct.reviews,
+      },
     });
   } catch (error) {
     // Custom error handle (e.g. Already reviewed)
-    res.status(400).json({ 
-      success: false, 
-      message: error.message 
+    res.status(400).json({
+      success: false,
+      message: error.message,
     });
   }
 };
