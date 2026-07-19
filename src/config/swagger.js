@@ -13,11 +13,17 @@ const options = {
         email: "support@mainichihalalshop.com",
       },
     },
+    // servers: [
+    //   {
+    //     url: "http://localhost:5000/api",
+    //     description: "Development Server",
+    //   },
+    //   {
+    //     url: "https://api.mainichihalalshop.com/api",
+    //     description: "Production Server",
+    //   },
+    // ],
     servers: [
-      {
-        url: "http://localhost:5000/api",
-        description: "Development Server",
-      },
       {
         url: "https://api.mainichihalalshop.com/api",
         description: "Production Server",
