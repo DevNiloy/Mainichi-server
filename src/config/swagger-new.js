@@ -16,12 +16,8 @@ const options = {
     },
     servers: [
       {
-        url:
-          process.env.NODE_ENV === "production"
-            ? "https://api.mainichihalalshop.com/api"
-            : "http://localhost:5000/api",
-        description:
-          process.env.NODE_ENV === "production" ? "Production" : "Development",
+        url: "https://api.mainichihalalshop.com/api",
+        description: "Production Server",
       },
     ],
     components: {
