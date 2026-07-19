@@ -2,6 +2,8 @@ const express = require("express");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const path = require("path");
+const swaggerUi = require("swagger-ui-express");
+const swaggerSpecs = require("./config/swagger");
 // const dns = require("dns");
 // dns.setServers(["1.1.1.1", "8.8.8.8"]);
 
@@ -45,6 +47,17 @@ app.use("/uploads", express.static(path.join(process.cwd(), "public/uploads")));
 app.get("/", (req, res) => {
   res.send("Japan Halal Food Server is running");
 });
+
+// --- 4.5 Swagger UI Documentation ---
+app.use(
+  "/api-docs",
+  swaggerUi.serve,
+  swaggerUi.setup(swaggerSpecs, {
+    swaggerOptions: {
+      persistAuthorization: true,
+    },
+  }),
+);
 
 // --- 5. Routes Integration ---
 app.use("/api/auth", authRoutes);
