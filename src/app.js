@@ -8,7 +8,7 @@ let swaggerSpecs = {};
 try {
   swaggerSpecs = require("./config/swagger-new");
 } catch (error) {
-  console.error('⚠️ Failed to load Swagger specs:', error.message);
+  console.error("⚠️ Failed to load Swagger specs:", error.message);
 }
 
 // const dns = require("dns");
@@ -34,6 +34,8 @@ app.use(
   cors({
     origin: [
       "http://localhost:5173",
+      "http://localhost:5000",
+      "https://api.mainichihalalshop.com",
       "https://mainichihalalshop.com",
       "https://www.mainichihalalshop.com",
     ],
@@ -64,13 +66,13 @@ if (Object.keys(swaggerSpecs).length > 0) {
       swaggerOptions: {
         persistAuthorization: true,
       },
-      customCss: '.topbar { display: none }',
-      customSiteTitle: 'Halal Food API Documentation'
+      customCss: ".topbar { display: none }",
+      customSiteTitle: "Halal Food API Documentation",
     }),
   );
-  console.log('✅ Swagger UI available at /api-docs');
+  console.log("✅ Swagger UI available at /api-docs");
 } else {
-  console.warn('⚠️ Swagger specs not available');
+  console.warn("⚠️ Swagger specs not available");
 }
 
 // --- 5. Routes Integration ---

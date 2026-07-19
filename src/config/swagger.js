@@ -1,4 +1,5 @@
-const swaggerJsdoc = require("swagger-jsdoc");const path = require('path');
+const swaggerJsdoc = require("swagger-jsdoc");
+const path = require("path");
 const options = {
   definition: {
     openapi: "3.0.0",
@@ -18,7 +19,7 @@ const options = {
         description: "Development Server",
       },
       {
-        url: "https://mainichihalalshop.com/api",
+        url: "https://api.mainichihalalshop.com/api",
         description: "Production Server",
       },
     ],
@@ -197,8 +198,8 @@ const options = {
     },
   },
   apis: [
-    path.join(__dirname, '../routes/*.js'),
-    path.join(__dirname, '../routes/admin/*.js')
+    path.join(__dirname, "../routes/*.js"),
+    path.join(__dirname, "../routes/admin/*.js"),
   ],
 };
 
