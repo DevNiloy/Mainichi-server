@@ -3,7 +3,14 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const path = require("path");
 const swaggerUi = require("swagger-ui-express");
-const swaggerSpecs = require("./config/swagger");
+
+let swaggerSpecs = {};
+try {
+  swaggerSpecs = require("./config/swagger-new");
+} catch (error) {
+  console.error('⚠️ Failed to load Swagger specs:', error.message);
+}
+
 // const dns = require("dns");
 // dns.setServers(["1.1.1.1", "8.8.8.8"]);
 
@@ -49,15 +56,22 @@ app.get("/", (req, res) => {
 });
 
 // --- 4.5 Swagger UI Documentation ---
-app.use(
-  "/api-docs",
-  swaggerUi.serve,
-  swaggerUi.setup(swaggerSpecs, {
-    swaggerOptions: {
-      persistAuthorization: true,
-    },
-  }),
-);
+if (Object.keys(swaggerSpecs).length > 0) {
+  app.use(
+    "/api-docs",
+    swaggerUi.serve,
+    swaggerUi.setup(swaggerSpecs, {
+      swaggerOptions: {
+        persistAuthorization: true,
+      },
+      customCss: '.topbar { display: none }',
+      customSiteTitle: 'Halal Food API Documentation'
+    }),
+  );
+  console.log('✅ Swagger UI available at /api-docs');
+} else {
+  console.warn('⚠️ Swagger specs not available');
+}
 
 // --- 5. Routes Integration ---
 app.use("/api/auth", authRoutes);
